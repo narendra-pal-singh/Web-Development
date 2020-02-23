@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <title>Chrome Event change Issue</title>
+
+</head>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+
+<style type="text/css">
+.box{
+  width:150px;
+  height:150px;
+  background:gray;
+  margin:auto 0;
+  cursor: pointer;
+}
+</style>        
+<body>
+
+</body>
+</html>
+
+<h1>Chrome Event change Issue</h1>
+<p>When click on box then should be change background color before cofnirm box show.</p>
+<p>it is not working for chorme browser as i have noticed, But for IE and Firefox mozilla</p>
+
+<div class="box">
+	Click on box </a>
+</div>
+
+
+<script type="text/javascript">
+
+(function($){
+
+jQuery('.box').click(function(){
+  
+  $('.box').css('background','red');
+  
+	if (!confirm("Are you sure, Want to delete this Photo?")){
+    $('.box').css('background','gray');
+    return false;
+  }
+  
+  
+  return false;
+});
+
+})(jQuery);
+
+</script>
