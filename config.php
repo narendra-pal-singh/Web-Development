@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //echo "<pre>";print_r($_SERVER);die;
 
 if($_SERVER['SERVER_PORT'] == 80)
-  $config['base_url'] = 'http://dev2.local/chokus.com/';
+  $config['base_url'] = 'http://dev2.local/';
 else
   $config['base_url'] = 'http://'.$_SERVER['HTTP_HOST'];
 //CI_VERSION = 3.1.3 to 3.1.11 now
