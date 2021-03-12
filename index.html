@@ -1,0 +1,115 @@
+<html>
+   <head>
+      
+      <title>File Upload in AngularJS</title>
+
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+      
+      <script src = "angular.js"></script>
+      <style>
+         #myfile {
+  opacity: 0;
+  position: absolute;
+}
+      </style>
+   </head>
+   <body ng-app="myApp">
+      <br>
+      <h3>File Upload</h3>
+      <br>
+      <div class="container" ng-controller="myController">
+         <div class="col-md-4">
+            <input type="file" file-input="files">
+         </div>
+         <div class="col-md-6">
+            <button ng-click="uploadFile()">Upload</button>
+         </div>
+     </div>
+   </body>
+</html>
+
+<script>
+var tmpObj = null;
+
+var app = angular.module('myApp', []);
+
+app.directive("fileInput", function($parse){
+   return{
+      link: function($scope, element, attrs){
+         element.on("change", function(event){
+            var files = event.target.files;
+            console.log(files[0].name);
+            $parse(attrs.fileInput).assign($scope, element[0].files);
+            $scope.$apply();
+         });
+      }
+   }
+});
+
+app.controller("myController", function($scope,$http){
+   $scope.uploadFile = () => {
+      alert('start upload');
+         var form_data = new FormData();
+         angular.forEach($scope.files, function(file){ alert(file);
+            form_data.append('file',file);
+            console.log("append="+file);
+         });
+         //tmpObj = form_data;
+         //formData.append('description', description);
+
+         $http.post('upload.php',form_data,{
+            transformRequest: angular.identity,
+            headers: {
+               //'Content-type': "application/x-www-form-urlencoded; charset=utf-8",
+               'Content-type': undefined,
+               'Process-Data': false}
+         }).success(function(response){
+            //alert(response);
+         });
+   }
+});
+
+
+   //var myApp = angular.module('myApp', []);
+
+   // myApp.directive('fileModel', ['$parse', function ($parse) {
+   //    return {
+   //       restrict: 'A',
+   //       link: function(scope, element, attrs) {
+   //          var model = $parse(attrs.fileModel);
+   //          var modelSetter = model.assign;
+            
+   //          element.bind('change', function() {
+   //             scope.$apply(function() {
+   //                modelSetter(scope, element[0].files[0]);
+   //             });
+   //          });
+   //       }
+   //    };
+   // }]);
+   // myApp.service('fileUpload', ['$https', function ($https) {
+   //    this.uploadFileToUrl = function(file, uploadUrl) {
+   //       var fd = new FormData();
+   //       fd.append('file', file);
+      
+   //       $https:.post(uploadUrl, fd, {
+   //          transformRequest: angular.identity,
+   //          headers: {'Content-Type': undefined}
+   //       })
+   //       .success(function() {
+   //       })
+   //       .error(function() {
+   //       });
+   //    }
+   // }]);
+   // myApp.controller('myCtrl', ['$scope', 'fileUpload', function($scope, fileUpload) {
+   //    $scope.uploadFile = function() { alert('upload');
+         
+   //       var file = $scope.myFile;
+   //       console.log('file is ' );
+   //       console.dir(file);
+   //       var uploadUrl = "/upload.php";
+   //       fileUpload.uploadFileToUrl(file, uploadUrl);
+   //    };
+   // }]);
+</script>
